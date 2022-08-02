@@ -2,8 +2,8 @@ class Node
   include Comparable
   attr_accessor :data, :left_child, :right_child
 
-  def <=>(ohter)
-    data <=> ohter.data
+  def <=>(other)
+    data <=> other.data
   end
 
   def initialize(data)
