@@ -57,6 +57,23 @@ class Tree
     end
   end
 
+  def level_order
+    tree_elements = []
+    tree_elements_ = []
+    tree_elements_ << root
+    tree_elements << root.data
+
+    until tree_elements_.empty?
+      current = tree_elements_.shift
+      tree_elements_ << current.left unless current.left.nil?
+      tree_elements_ << current.right unless current.right.nil?
+      tree_elements << current.left.data unless current.left.nil?
+      tree_elements << current.right.data unless current.right.nil?
+    end
+
+    tree_elements
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -71,4 +88,5 @@ tree.insert 40
 tree.insert 70
 tree.insert 60
 tree.insert 80
-p tree.find(30)
+tree.pretty_print
+p tree.level_order
