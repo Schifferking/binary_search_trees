@@ -112,6 +112,26 @@ class Tree
     tree_elements unless block_given?
   end
 
+  def depth(node)
+    return nil if node.nil?
+
+    current = root
+    edges_count = 0
+
+    until current.nil?
+      return edges_count if node == current.data
+
+      if node < current.data
+        current = current.left
+      else
+        current = current.right
+      end
+
+      edges_count += 1
+    end
+    edges_count
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
