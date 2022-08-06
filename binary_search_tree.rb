@@ -68,7 +68,7 @@ class Tree
 
     until tree_elements_.empty?
       current = tree_elements_.shift
-      block.yield(current) if block_given?
+      block.call(current) if block_given?
       tree_elements_ << current.left unless current.left.nil?
       tree_elements_ << current.right unless current.right.nil?
 
@@ -82,31 +82,34 @@ class Tree
     tree_elements unless block_given?
   end
 
-  def inorder(node = root, tree_elements = [])
+  def inorder(node = root, tree_elements = [], &block)
     return nil if node.nil?
 
-    inorder(node.left, tree_elements)
-    tree_elements << node.data
-    inorder(node.right, tree_elements)
-    tree_elements
+    inorder(node.left, tree_elements, &block)
+    tree_elements << node.data unless block_given?
+    block.call(node) if block_given?
+    inorder(node.right, tree_elements, &block)
+    tree_elements unless block_given?
   end
 
-  def preorder(node = root, tree_elements = [])
+  def preorder(node = root, tree_elements = [], &block)
     return nil if node.nil?
 
-    tree_elements << node.data
-    preorder(node.left, tree_elements)
-    preorder(node.right, tree_elements)
-    tree_elements
+    tree_elements << node.data unless block_given?
+    block.call(node) if block_given?
+    preorder(node.left, tree_elements, &block)
+    preorder(node.right, tree_elements, &block)
+    tree_elements unless block_given?
   end
 
-  def postorder(node = root, tree_elements = [])
+  def postorder(node = root, tree_elements = [], &block)
     return nil if node.nil?
 
-    postorder(node.left, tree_elements)
-    postorder(node.right, tree_elements)
-    tree_elements << node.data
-    tree_elements
+    postorder(node.left, tree_elements, &block)
+    postorder(node.right, tree_elements, &block)
+    tree_elements << node.data unless block_given?
+    block.call(node) if block_given?
+    tree_elements unless block_given?
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -123,4 +126,3 @@ tree.insert 40
 tree.insert 70
 tree.insert 60
 tree.insert 80
-p tree.postorder
