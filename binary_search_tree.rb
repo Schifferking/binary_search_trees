@@ -91,6 +91,15 @@ class Tree
     tree_elements
   end
 
+  def preorder(node = root, tree_elements = [])
+    return nil if node.nil?
+
+    tree_elements << node.data
+    preorder(node.left, tree_elements)
+    preorder(node.right, tree_elements)
+    tree_elements
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -105,4 +114,4 @@ tree.insert 40
 tree.insert 70
 tree.insert 60
 tree.insert 80
-p tree.inorder
+p tree.preorder
