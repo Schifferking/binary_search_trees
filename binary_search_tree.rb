@@ -57,21 +57,29 @@ class Tree
     end
   end
 
-  def level_order
-    tree_elements = []
+  def level_order(&block)
     tree_elements_ = []
     tree_elements_ << root
-    tree_elements << root.data
+
+    unless block_given?
+      tree_elements = []
+      tree_elements << root.data
+    end
 
     until tree_elements_.empty?
       current = tree_elements_.shift
+      block.yield(current) if block_given?
       tree_elements_ << current.left unless current.left.nil?
       tree_elements_ << current.right unless current.right.nil?
-      tree_elements << current.left.data unless current.left.nil?
-      tree_elements << current.right.data unless current.right.nil?
+
+      unless block_given?
+        tree_elements << current.left.data unless current.left.nil?
+        tree_elements << current.right.data unless current.right.nil?
+      end
+
     end
 
-    tree_elements
+    tree_elements unless block_given?
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -89,4 +97,3 @@ tree.insert 70
 tree.insert 60
 tree.insert 80
 tree.pretty_print
-p tree.level_order
