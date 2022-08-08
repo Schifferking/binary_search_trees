@@ -112,6 +112,17 @@ class Tree
     tree_elements unless block_given?
   end
 
+  def height(node, current_height = 0)
+    return current_height if node.nil? || node.left.nil? && node.right.nil?
+
+    left_subtree_height = height(node.left, current_height + 1)
+    right_subtree_height = height(node.right, current_height + 1)
+    return left_subtree_height if left_subtree_height > right_subtree_height
+    return right_subtree_height if left_subtree_height < right_subtree_height
+
+    left_subtree_height
+  end
+
   def depth(node)
     return nil if node.nil?
 
