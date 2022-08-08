@@ -143,6 +143,22 @@ class Tree
     edges_count
   end
 
+  def balanced?(node = root)
+    return if node.nil?
+
+    left_subtree_height = height(node.left)
+
+    right_subtree_height = height(node.right)
+    difference = (left_subtree_height - right_subtree_height).abs
+    return false if difference >= 2
+
+    balanced?(node.left)
+
+    balanced?(node.right)
+
+    true
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
