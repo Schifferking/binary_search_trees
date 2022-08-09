@@ -70,6 +70,24 @@ class Tree
       node = nil
       return tmp
     end
+
+    # Both children
+    successor_parent = node
+    successor = node.right
+
+    until successor.left.nil?
+      successor_parent = successor
+      successor = successor.left
+    end
+
+    if successor_parent.data != node.data
+      successor_parent.left = successor.right
+    else
+      successor_parent.right = successor.right
+    end
+
+    node.data = successor.data
+    node
   end
 
   def find(value, root = self.root)
