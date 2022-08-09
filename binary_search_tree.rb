@@ -215,10 +215,20 @@ class Tree
   end
 end
 
-tree = Tree.new [50]
-tree.insert 30
-tree.insert 20
-tree.insert 40
-tree.insert 70
-tree.insert 60
-tree.insert 80
+# Driver code
+tree = Tree.new(Array.new(15) { rand(1..100) })
+p "Balanced?: #{tree.balanced?}"
+p "Level order: #{tree.level_order}"
+p "Preorder: #{tree.preorder}"
+p "Postorder: #{tree.postorder}"
+p "Inorder: #{tree.inorder}"
+tree.insert 105
+tree.insert 110
+tree.insert 115
+p "Balanced?: #{tree.balanced?}"
+tree.rebalance
+p "Balanced?: #{tree.balanced?}"
+p "Level order: #{tree.level_order}"
+p "Preorder: #{tree.preorder}"
+p "Postorder: #{tree.postorder}"
+p "Inorder: #{tree.inorder}"
